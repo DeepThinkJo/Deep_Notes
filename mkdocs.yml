@@ -1,0 +1,16 @@
+site_name: Deep Notes – DeepThinkJo
+site_description: "Concise textbook-style notes on Mathematics, Computer Science, and Artificial Intelligence."
+site_url: "https://<your-github-username>.github.io/Deep_Notes"
+
+docs_dir: notes
+
+theme:
+  name: mkdocs
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - tables
+  - admonition
+  - codehilite
+  - footnotes
