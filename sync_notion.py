@@ -115,10 +115,8 @@ def convert_math(md_text: str) -> str:
     """
     Convert math syntax for MkDocs + MathJax:
     - Protect fenced code blocks ```...```
-    - Convert block math:
-        $$ ... $$  ->  \\[ ... \\]
-    - Convert inline math:
-        $ ... $    ->  \\( ... \\)
+    - Convert block math: $$ ... $$  ->  \\[ ... \\]
+    - Convert inline math: $ ... $  ->  \\( ... \\)
     """
 
     # 1) 코드 블록 보호
@@ -134,7 +132,7 @@ def convert_math(md_text: str) -> str:
         placeholders.append((placeholder, original))
         temp_text = temp_text.replace(original, placeholder, 1)
 
-    # 2) 블록 수식 변환: $$ ... $$  ->  \[ ... \]
+    # 2) 블록 수식 변환
     block_math_pattern = r"\$\$([\s\S]*?)\$\$"
 
     def _block_repl(m):
@@ -143,7 +141,7 @@ def convert_math(md_text: str) -> str:
 
     temp_text = re.sub(block_math_pattern, _block_repl, temp_text)
 
-    # 3) 인라인 수식 변환: $ ... $  ->  \( ... \)
+    # 3) 인라인 수식 변환
     inline_math_pattern = r"(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)"
     temp_text = re.sub(inline_math_pattern, r"\\(\1\\)", temp_text)
 
@@ -186,6 +184,10 @@ def extract_properties(page):
     summary = text("Summary")
     last_edited = page.get("last_edited_time", "")
 
+    # 새로 추가: Chapter / Section (number 타입)
+    chapter = props.get("Chapter", {}).get("number")
+    section = props.get("Section", {}).get("number")
+
     return {
         "title": title,
         "category": category,
@@ -196,6 +198,8 @@ def extract_properties(page):
         "sync_path": sync_path,
         "summary": summary,
         "last_edited": last_edited,
+        "chapter": chapter,
+        "section": section,
     }
 
 
@@ -222,9 +226,13 @@ def save_markdown(page, markdown_body: str):
     fm.append(f"tags: {meta['tags']}")
     if meta["summary"]:
         fm.append(f'summary: "{meta["summary"]}"')
+    # 새로 추가: chapter / section 메타데이터
+    if meta["chapter"] is not None:
+        fm.append(f"chapter: {meta['chapter']}")
+    if meta["section"] is not None:
+        fm.append(f"section: {meta['section']}")
     fm.append("---\n")
 
-    # 수식 변환 적용
     markdown_body = convert_math(markdown_body)
 
     with open(filepath, "w", encoding="utf-8") as f:
