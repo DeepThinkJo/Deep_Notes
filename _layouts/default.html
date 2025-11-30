@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>
+    {% if page.title %}
+      {{ page.title }} · {{ site.title }}
+    {% else %}
+      {{ site.title }}
+    {% endif %}
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% if site.description %}
+  <meta name="description" content="{{ site.description }}">
+  {% endif %}
+
+  {# 선택: 나중에 CSS 만들면 이 경로에 둘 수 있음 #}
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+
+  <!-- MathJax: 기본 LaTeX 수식 렌더링 (커스텀 매크로 없음) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+</head>
+
+<body>
+  <main class="page-content">
+    {{ content }}
+  </main>
+</body>
+</html>
