@@ -1,13 +1,17 @@
 name: Sync Notion and Deploy Deep Notes
 
 on:
-  workflow_dispatch:      # 버튼 눌러서 수동 실행
+  workflow_dispatch:      # 수동 실행 버튼
   push:
     paths:
       - "notes/**"
       - "scripts/**"
       - "mkdocs.yml"
       - "sync_notion.py"
+
+# ✅ github-actions[bot]이 gh-pages 브랜치에 push 할 수 있게 권한 열어주기
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
