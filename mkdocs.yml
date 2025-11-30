@@ -1,28 +1,32 @@
 site_name: Deep Notes – DeepThinkJo
-site_description: "Concise textbook-style notes on Mathematics, Computer Science, and Artificial Intelligence."
-site_url: "https://deepthinkjo.github.io/Deep_Notes"
-
+site_description: Concise textbook-style notes on Mathematics, Computer Science, and
+  Artificial Intelligence.
+site_url: https://deepthinkjo.github.io/Deep_Notes
 docs_dir: notes
-
 theme:
   name: material
-
 use_directory_urls: false
-
 markdown_extensions:
-  - toc:
-      permalink: true
-  - tables
-  - admonition
-  - codehilite
-  - footnotes
-
-  # --- MathJax 렌더링 추가 ---
-  - pymdownx.arithmatex:
-      generic: true
-  - pymdownx.superfences
-
+- toc:
+    permalink: true
+- tables
+- admonition
+- codehilite
+- footnotes
+- pymdownx.arithmatex:
+    generic: true
+- pymdownx.superfences
 extra_javascript:
-  # MathJax v3 로딩
-  - https://polyfill.io/v3/polyfill.min.js?features=es6
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+- https://polyfill.io/v3/polyfill.min.js?features=es6
+- https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+nav:
+- Deep Notes:
+  - Mathematics:
+    - Linear_Algebra:
+      - Introduction to Linear Algebra: Mathematics/Linear_Algebra/introduction_to_linear_algebra.md
+      - Chapter 1:
+        - Vector Spaces: Mathematics/Linear_Algebra/chapter_1_vector_spaces.md
+        - Vector Spaces and Subspaces: Mathematics/Linear_Algebra/chapter_1/sec_1_vector_spaces_and_subspaces.md
+  - Test:
+    - Test:
+      - Test Sync Note: Test/Test/test_sync_note.md
