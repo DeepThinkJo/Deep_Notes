@@ -34,7 +34,7 @@ jobs:
         run: python sync_notion.py
 
       - name: Generate navigation
-        run: python scripts/generate_nav.py
+        run: python generate_nav.py
 
       - name: Deploy with MkDocs
         env:
