@@ -87,12 +87,6 @@ Proof
 Example
   -> my interpretation
 
-
----
-
-# ✅ **Part 3/4 — Structure of Notes (CS & AI)**
-
-```markdown
 ---
 
 ### 3.2 Computer Science
