@@ -5,7 +5,7 @@ site_url: "https://deepthinkjo.github.io/Deep_Notes"
 docs_dir: notes
 
 theme:
-  name: mkdocs
+  name: material
 
 use_directory_urls: false
 
