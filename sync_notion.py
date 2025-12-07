@@ -104,7 +104,12 @@ def blocks_to_markdown(blocks):
             md.append("> " + rich_text_to_plaintext(block[t]["rich_text"]))
 
         elif t == "code":
-            lang = block["code"].get("language", "")
+            lang = block["code"].get("language", "") or ""
+            # Notion에서 "plain text" 같은 언어 이름이 들어오는 경우
+            # MkDocs에서 깨지지 않도록 언어명을 정리한다.
+            normalized = lang.strip().lower()
+            if normalized.replace(" ", "") in ("plaintext", "plain", "text"):
+                lang = ""
             code_text = rich_text_to_plaintext(block["code"]["rich_text"])
             md.append(f"```{lang}\n{code_text}\n```")
 
@@ -150,6 +155,26 @@ def convert_math(md_text: str) -> str:
         temp_text = temp_text.replace(placeholder, original)
 
     return temp_text
+
+
+def clean_markdown(md_text: str) -> str:
+    """
+    Notion → Markdown 변환 후,
+    GitHub Pages(MkDocs)에서 문제가 될 수 있는 패턴을 정리한다.
+
+    현재는 주로 Notion code block 언어가 "plain text"인 경우
+    ```plain text
+    로 출력되는 것을
+    ``` 로 치환해준다.
+    """
+    # ```plain text\n  형태를 ```\n 으로 치환 (대소문자 무시)
+    md_text = re.sub(
+        r"```+\s*plain text\s*\n",
+        "```\n",
+        md_text,
+        flags=re.IGNORECASE,
+    )
+    return md_text
 
 
 def extract_properties(page):
@@ -233,6 +258,8 @@ def save_markdown(page, markdown_body: str):
         fm.append(f"section: {meta['section']}")
     fm.append("---\n")
 
+    # 마크다운 본문 후처리
+    markdown_body = clean_markdown(markdown_body)
     markdown_body = convert_math(markdown_body)
 
     with open(filepath, "w", encoding="utf-8") as f:
