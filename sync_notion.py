@@ -19,7 +19,49 @@ def ensure_env():
 
 
 def rich_text_to_plaintext(rich_text_array):
+    """Front matter 등에 쓸 순수 텍스트 추출용."""
     return "".join([t["text"]["content"] for t in rich_text_array if "text" in t])
+
+
+def rich_text_to_markdown(rich_text_array):
+    """
+    Notion rich_text 배열을 Markdown 문자열로 변환.
+    - bold        -> **text**
+    - italic      -> *text*
+    - code        -> `text`
+    - strikethrough -> ~~text~~
+    - underline   -> <u>text</u> (Markdown 표준은 없어서 HTML 태그 사용)
+    - link        -> [text](url)
+    """
+    parts = []
+    for t in rich_text_array:
+        if "text" not in t:
+            continue
+
+        text = t["text"]["content"]
+        href = t.get("href")
+        ann = t.get("annotations", {})
+
+        # code가 있으면 가장 우선
+        if ann.get("code"):
+            text = f"`{text}`"
+        else:
+            if ann.get("bold"):
+                text = f"**{text}**"
+            if ann.get("italic"):
+                text = f"*{text}*"
+            if ann.get("strikethrough"):
+                text = f"~~{text}~~"
+            if ann.get("underline"):
+                text = f"<u>{text}</u>"
+
+        # 링크가 있으면 가장 바깥을 링크로 감싼다
+        if href:
+            text = f"[{text}]({href})"
+
+        parts.append(text)
+
+    return "".join(parts)
 
 
 def query_database():
@@ -83,31 +125,31 @@ def blocks_to_markdown(blocks):
         t = block.get("type")
 
         if t == "paragraph":
-            md.append(rich_text_to_plaintext(block[t]["rich_text"]) + "\n")
+            md.append(rich_text_to_markdown(block[t]["rich_text"]) + "\n")
 
         elif t == "heading_1":
-            md.append("# " + rich_text_to_plaintext(block[t]["rich_text"]) + "\n")
+            md.append("# " + rich_text_to_markdown(block[t]["rich_text"]) + "\n")
 
         elif t == "heading_2":
-            md.append("## " + rich_text_to_plaintext(block[t]["rich_text"]) + "\n")
+            md.append("## " + rich_text_to_markdown(block[t]["rich_text"]) + "\n")
 
         elif t == "heading_3":
-            md.append("### " + rich_text_to_plaintext(block[t]["rich_text"]) + "\n")
+            md.append("### " + rich_text_to_markdown(block[t]["rich_text"]) + "\n")
 
         elif t == "bulleted_list_item":
-            md.append("- " + rich_text_to_plaintext(block[t]["rich_text"]))
+            md.append("- " + rich_text_to_markdown(block[t]["rich_text"]))
 
         elif t == "numbered_list_item":
-            md.append("1. " + rich_text_to_plaintext(block[t]["rich_text"]))
+            md.append("1. " + rich_text_to_markdown(block[t]["rich_text"]))
 
         elif t == "quote":
-            md.append("> " + rich_text_to_plaintext(block[t]["rich_text"]))
+            md.append("> " + rich_text_to_markdown(block[t]["rich_text"]))
 
         elif t == "code":
+            # 코드 블록은 bold/italic 같은 건 굳이 안 살려도 되므로 plaintext만 사용
             lang = block["code"].get("language", "") or ""
-            # Notion에서 "plain text" 같은 언어 이름이 들어오는 경우
-            # MkDocs에서 깨지지 않도록 언어명을 정리한다.
             normalized = lang.strip().lower()
+            # Notion "plain text" 같은 표기를 언어 없이 처리
             if normalized.replace(" ", "") in ("plaintext", "plain", "text"):
                 lang = ""
             code_text = rich_text_to_plaintext(block["code"]["rich_text"])
@@ -162,12 +204,11 @@ def clean_markdown(md_text: str) -> str:
     Notion → Markdown 변환 후,
     GitHub Pages(MkDocs)에서 문제가 될 수 있는 패턴을 정리한다.
 
-    현재는 주로 Notion code block 언어가 "plain text"인 경우
+    현재는 Notion code block 언어가 "plain text"인 경우
     ```plain text
-    로 출력되는 것을
+    형식으로 출력되는 것을
     ``` 로 치환해준다.
     """
-    # ```plain text\n  형태를 ```\n 으로 치환 (대소문자 무시)
     md_text = re.sub(
         r"```+\s*plain text\s*\n",
         "```\n",
@@ -209,7 +250,6 @@ def extract_properties(page):
     summary = text("Summary")
     last_edited = page.get("last_edited_time", "")
 
-    # 새로 추가: Chapter / Section (number 타입)
     chapter = props.get("Chapter", {}).get("number")
     section = props.get("Section", {}).get("number")
 
@@ -251,14 +291,12 @@ def save_markdown(page, markdown_body: str):
     fm.append(f"tags: {meta['tags']}")
     if meta["summary"]:
         fm.append(f'summary: "{meta["summary"]}"')
-    # 새로 추가: chapter / section 메타데이터
     if meta["chapter"] is not None:
         fm.append(f"chapter: {meta['chapter']}")
     if meta["section"] is not None:
         fm.append(f"section: {meta['section']}")
     fm.append("---\n")
 
-    # 마크다운 본문 후처리
     markdown_body = clean_markdown(markdown_body)
     markdown_body = convert_math(markdown_body)
 
