@@ -160,7 +160,7 @@ def blocks_to_markdown(blocks):
 
 def convert_math(md_text: str) -> str:
     """
-    Convert math syntax for MkDocs + MathJax:
+    Convert math syntax:
     - Protect fenced code blocks ```...```
     - Convert block math: $$ ... $$  ->  \\[ ... \\]
     - Convert inline math: $ ... $  ->  \\( ... \\)
@@ -202,7 +202,7 @@ def convert_math(md_text: str) -> str:
 def clean_markdown(md_text: str) -> str:
     """
     Notion → Markdown 변환 후,
-    GitHub Pages(MkDocs)에서 문제가 될 수 있는 패턴을 정리한다.
+    GitHub Pages에서 문제가 될 수 있는 패턴을 정리한다.
 
     현재는 Notion code block 언어가 "plain text"인 경우
     ```plain text
@@ -268,7 +268,10 @@ def extract_properties(page):
     }
 
 
-def save_markdown(page, markdown_body: str):
+def save_markdown(page, markdown_body: str) -> str:
+    """
+    페이지를 파일로 저장하고, Notion에서 온 sync_path(OUTPUT_DIR 기준 상대 경로)를 반환.
+    """
     meta = extract_properties(page)
     sync_path = meta["sync_path"]
 
@@ -305,20 +308,44 @@ def save_markdown(page, markdown_body: str):
         f.write(markdown_body)
 
     print(f"Saved: {filepath}")
+    # sync_path는 OUTPUT_DIR 기준 상대 경로 (예: "math/linear-algebra/intro.md")
+    return sync_path
+
+
+def cleanup_stale_files(valid_relative_paths: set[str]):
+    """
+    이번 sync에서 실제로 생성/갱신된 파일 목록(valid_relative_paths)에 없는
+    기존 notes/ 이하의 .md 파일들을 삭제한다.
+    """
+    # valid_relative_paths는 "foo/bar.md" 형태의 문자열 집합이라고 가정
+    for path in OUTPUT_DIR.rglob("*.md"):
+        rel = path.relative_to(OUTPUT_DIR).as_posix()
+        if rel not in valid_relative_paths:
+            path.unlink()
+            print(f"Deleted stale file: {rel}")
 
 
 def main():
     ensure_env()
     pages = query_database()
 
+    valid_paths: set[str] = set()
+
     if not pages:
         print("No pages with Status = 'Completed'.")
+        # Notion에 Completed 페이지가 하나도 없으면, notes/ 안의 md를 모두 삭제
+        cleanup_stale_files(valid_paths)
         return
 
     for page in pages:
         blocks = get_page_blocks(page["id"])
         markdown_body = blocks_to_markdown(blocks)
-        save_markdown(page, markdown_body)
+        sync_path = save_markdown(page, markdown_body)
+        # sync_path는 OUTPUT_DIR 기준 상대 경로
+        valid_paths.add(sync_path)
+
+    # 이번에 실제로 존재하는 페이지 목록만 남기고 나머지 .md 파일 삭제
+    cleanup_stale_files(valid_paths)
 
     print("Sync completed.")
 
