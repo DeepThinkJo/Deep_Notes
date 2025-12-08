@@ -1,9 +1,8 @@
 name: Sync Notion and Deploy Deep Notes
 
 on:
-  workflow_dispatch:      # 수동 실행 버튼
+  workflow_dispatch:
   schedule:
-    # 10분마다 실행 (UTC 기준)
     - cron: "* */12 * * *"
   push:
     paths:
@@ -12,7 +11,6 @@ on:
       - "mkdocs.yml"
       - "sync_notion.py"
 
-# ✅ github-actions[bot]이 gh-pages 브랜치에 push 할 수 있게 권한 열어주기
 permissions:
   contents: write
 
@@ -42,6 +40,18 @@ jobs:
 
       - name: Generate navigation
         run: python generate_nav.py
+
+      - name: Commit and push changes   # ✅ 새로 추가
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add notes mkdocs.yml .config.yml generate_nav.py sync_notion.py
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-sync from Notion and update nav"
+            git push
+          fi
 
       - name: Deploy with MkDocs
         env:
