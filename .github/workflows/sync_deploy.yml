@@ -41,11 +41,11 @@ jobs:
       - name: Generate navigation
         run: python generate_nav.py
 
-      - name: Commit and push changes   # ✅ 새로 추가
+      - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add notes mkdocs.yml .config.yml generate_nav.py sync_notion.py
+          git add -A
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
