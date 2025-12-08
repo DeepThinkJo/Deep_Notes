@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install mkdocs mkdocs-material
-          pip install requests
+          pip install requests pyyaml
 
       - name: Sync from Notion
         env:
