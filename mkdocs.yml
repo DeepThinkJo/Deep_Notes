@@ -31,3 +31,6 @@ nav:
       - Basic Data Types: notes/Computer_Science/Python/chapter_2/sec_2_basic_data_types.md
       - Operators and Expressions: notes/Computer_Science/Python/chapter_2/sec_3_operators_and_expressions.md
       - Python Programming Basics: notes/Computer_Science/Python/chapter_2_python_programming_basics.md
+  - Misc:
+    - General:
+      - index: notes/index.md
