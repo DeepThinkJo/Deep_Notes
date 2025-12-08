@@ -1,241 +1,152 @@
-#!/usr/bin/env python3
-"""
-generate_nav.py
-
-notes/ 폴더 구조를 읽어서 mkdocs.yml 의 nav 섹션을 자동으로 생성/갱신하는 스크립트.
-
-전제:
-- docs_dir: "notes"
-- Sync_Path 는 이미 Category/Subcategory/... 구조로 생성되고 있음
-- front matter 에 최소한 다음 필드가 있음:
-    - title: "Vector Spaces"
-    - chapter: 1 (optional)
-    - section: 1 (optional)
-"""
-
-import os
 import re
 from pathlib import Path
 
-import yaml  # pip install pyyaml
+import yaml
 
-DOCS_DIR = Path("notes")
-MKDOCS_YML = Path("mkdocs.yml")
+MKDOCS_PATH = Path("mkdocs.yml")
+NOTES_DIR = Path("notes")
 
 
-def read_meta(md_path: Path):
+def load_mkdocs_config():
+    if not MKDOCS_PATH.exists():
+        raise SystemExit("mkdocs.yml not found")
+
+    with MKDOCS_PATH.open("r", encoding="utf-8") as f:
+        config = yaml.safe_load(f) or {}
+
+    return config
+
+
+def parse_front_matter(md_path: Path) -> dict:
     """
-    front matter 에서 title, chapter, section 을 읽어온다.
-    chapter, section 은 문자열 형태로 반환(라벨용).
+    각 Markdown 파일에서 YAML front matter 부분만 파싱해서 dict로 반환.
+    front matter가 없으면 빈 dict 반환.
     """
-    default_title = md_path.stem.replace("_", " ")
+    text = md_path.read_text(encoding="utf-8")
 
-    title = None
-    chapter = None
-    section = None
+    if not text.startswith("---"):
+        return {}
 
+    # 처음 두 개의 '---' 사이를 front matter 로 간주
+    parts = text.split("---", 2)
+    if len(parts) < 3:
+        return {}
+
+    fm_text = parts[1]
     try:
-        with md_path.open(encoding="utf-8") as f:
-            lines = list(f)
-
-        if not lines or not lines[0].strip().startswith("---"):
-            return default_title, chapter, section
-
-        # front matter 끝나는 지점 찾기
-        end_idx = None
-        for i in range(1, len(lines)):
-            if lines[i].strip().startswith("---"):
-                end_idx = i
-                break
-        if end_idx is None:
-            return default_title, chapter, section
-
-        for line in lines[1:end_idx]:
-            s = line.strip()
-            if s.startswith("title:"):
-                value = s.split(":", 1)[1].strip()
-                value = value.strip('"').strip("'")
-                if value:
-                    title = value
-            elif s.startswith("chapter:"):
-                value = s.split(":", 1)[1].strip()
-                if value:
-                    chapter = value
-            elif s.startswith("section:"):
-                value = s.split(":", 1)[1].strip()
-                if value:
-                    section = value
-
+        data = yaml.safe_load(fm_text) or {}
     except Exception:
-        return default_title, chapter, section
+        data = {}
 
-    return title or default_title, chapter, section
+    return data
 
 
-def chapter_number_from_name(name: str) -> int:
+def collect_pages():
     """
-    chapter_1_vector_spaces.md or chapter_1 → 1
+    notes/ 이하의 모든 .md 파일에 대해
+    front matter 정보를 모아서 리스트로 반환.
     """
-    m = re.match(r"chapter_(\d+)", name)
-    return int(m.group(1)) if m else 0
+    pages = []
 
+    for md_path in NOTES_DIR.rglob("*.md"):
+        meta = parse_front_matter(md_path)
 
-def section_key_from_filename(name: str):
-    """
-    sec_1_spaces.md → (1,)
-    sec_1_1_spaces.md → (1,1)
-    정렬용 키.
-    """
-    m = re.match(r"sec_([0-9_]+)_", name)
-    if not m:
-        return (9999,)
-    parts = m.group(1).split("_")
-    try:
-        return tuple(int(p) for p in parts)
-    except ValueError:
-        return (9999,)
+        title = meta.get("title") or md_path.stem
+        category = meta.get("category") or "Misc"
+        subcategory = meta.get("subcategory") or "General"
+        chapter = meta.get("chapter")
+        section = meta.get("section")
 
+        rel_path = md_path.as_posix()  # mkdocs.yml 에서 쓸 경로
 
-def build_subject_nav(subject_dir: Path):
-    """
-    하나의 Subcategory(예: Linear_Algebra) 안에서 nav 구조를 만든다.
-
-    반환 형식 예:
-    [
-      {"Introduction to Linear Algebra": "Mathematics/Linear_Algebra/intro.md"},
-      {
-        "Chapter 1": [
-          {"1 Vector Spaces": "..."},
-          {"1.1 Vector Spaces and Subspaces": "..."},
-        ]
-      }
-    ]
-    """
-    items = []
-
-    def rel(path: Path) -> str:
-        return str(path.relative_to(DOCS_DIR)).replace("\\", "/")
-
-    # 1) subject 루트의 md 파일들
-    md_files = sorted(
-        [p for p in subject_dir.glob("*.md") if p.is_file()],
-        key=lambda p: p.name,
-    )
-
-    subject_intro_items = []
-    chapter_intro_map = {}  # ch_num -> (title, rel_path)
-
-    for md in md_files:
-        name = md.name
-        t, ch, sec = read_meta(md)
-
-        if name.startswith("chapter_"):
-            ch_num = chapter_number_from_name(name)
-            chapter_intro_map[ch_num] = (t, rel(md))
-        else:
-            # 과목 인트로/기타
-            subject_intro_items.append({t: rel(md)})
-
-    # 2) chapter_* 폴더들
-    chapter_dirs = sorted(
-        [d for d in subject_dir.glob("chapter_*") if d.is_dir()],
-        key=lambda d: chapter_number_from_name(d.name),
-    )
-
-    chapter_items = []
-
-    for ch_dir in chapter_dirs:
-        ch_num = chapter_number_from_name(ch_dir.name)
-
-        ch_intro_title, ch_intro_path = None, None
-        if ch_num in chapter_intro_map:
-            ch_intro_title, ch_intro_path = chapter_intro_map[ch_num]
-
-        # 섹션 파일들 정렬
-        sections = sorted(
-            [p for p in ch_dir.glob("*.md") if p.is_file()],
-            key=lambda p: section_key_from_filename(p.name),
+        pages.append(
+            {
+                "title": title,
+                "category": category,
+                "subcategory": subcategory,
+                "chapter": chapter,
+                "section": section,
+                "path": rel_path,
+            }
         )
 
-        section_nav = []
-
-        # 챕터 인트로
-        if ch_intro_title and ch_intro_path:
-            label = f"{ch_num} {ch_intro_title}"
-            section_nav.append({label: ch_intro_path})
-
-        # 일반 섹션들
-        for sec in sections:
-            t, ch_meta, sec_meta = read_meta(sec)
-
-            # 번호 prefix 만들기: chapter.section
-            prefix = ""
-            if sec_meta:
-                # 섹션 번호는 그대로 문자열로 사용 (예: "1", "1.1")
-                prefix = f"{ch_num}.{sec_meta} "
-
-            label = f"{prefix}{t}" if prefix else t
-            section_nav.append({label: rel(sec)})
-
-        if not section_nav:
-            continue
-
-        chapter_label = f"Chapter {ch_num}"
-        chapter_items.append({chapter_label: section_nav})
-
-    items.extend(subject_intro_items)
-    items.extend(chapter_items)
-    return items
+    return pages
 
 
-def build_nav():
+def build_nav_structure(pages):
     """
-    전체 nav 구조 생성.
-
+    pages 리스트를 기반으로 mkdocs nav 구조(list of dicts)를 생성.
+    최종 구조:
     nav:
       - Deep Notes:
-          - Mathematics:
-              - Linear_Algebra:
-                  ...
+          - Category:
+              - Subcategory:
+                  - Title: path
     """
-    nav_root = []
+    # category / subcategory 기준으로 그룹화
+    tree = {}
 
-    if not DOCS_DIR.exists():
-        raise SystemExit(f"{DOCS_DIR} does not exist")
+    for p in pages:
+        cat = p["category"]
+        sub = p["subcategory"]
 
-    for category_dir in sorted(DOCS_DIR.iterdir()):
-        if not category_dir.is_dir():
-            continue
-        category_label = category_dir.name
-        subjects = []
+        tree.setdefault(cat, {}).setdefault(sub, []).append(p)
 
-        for subject_dir in sorted(category_dir.iterdir()):
-            if not subject_dir.is_dir():
-                continue
-            subject_label = subject_dir.name
-            subject_nav = build_subject_nav(subject_dir)
-            subjects.append({subject_label: subject_nav})
+    deep_notes_children = []
 
-        if subjects:
-            nav_root.append({category_label: subjects})
+    # category 정렬 (알파벳)
+    for cat in sorted(tree.keys()):
+        sub_dict = tree[cat]
+        sub_entries = []
 
-    return [{"Deep Notes": nav_root}]
+        # subcategory 정렬 (알파벳)
+        for sub in sorted(sub_dict.keys()):
+            items = sub_dict[sub]
+
+            # chapter, section, title 기준으로 정렬
+            def sort_key(item):
+                ch = item["chapter"]
+                sec = item["section"]
+
+                # chapter / section 이 None 인 경우는 뒤쪽으로 보내기 위해 큰 값 사용
+                ch_key = ch if ch is not None else 9999
+                sec_key = sec if sec is not None else 9999
+                return (ch_key, sec_key, item["title"])
+
+            items.sort(key=sort_key)
+
+            pages_nav = [{item["title"]: item["path"]} for item in items]
+            sub_entries.append({sub: pages_nav})
+
+        deep_notes_children.append({cat: sub_entries})
+
+    # 최종 nav 구조
+    nav = [{"Deep Notes": deep_notes_children}]
+    return nav
 
 
 def update_mkdocs_nav():
-    """mkdocs.yml 파일의 nav 섹션을 갱신한다."""
-    if not MKDOCS_YML.exists():
-        raise SystemExit("mkdocs.yml not found")
+    config = load_mkdocs_config()
+    pages = collect_pages()
 
-    with MKDOCS_YML.open(encoding="utf-8") as f:
-        config = yaml.safe_load(f)
+    if not pages:
+        print("No markdown pages found under 'notes/'. nav will be empty.")
+        config["nav"] = []
+    else:
+        nav = build_nav_structure(pages)
+        config["nav"] = nav
 
-    config["nav"] = build_nav()
+    with MKDOCS_PATH.open("w", encoding="utf-8") as f:
+        # sort_keys=False 로 해서 기존 key 순서를 최대한 유지
+        yaml.safe_dump(
+            config,
+            f,
+            sort_keys=False,
+            default_flow_style=False,
+            allow_unicode=True,
+        )
 
-    with MKDOCS_YML.open("w", encoding="utf-8") as f:
-        yaml.dump(config, f, sort_keys=False, allow_unicode=True)
-
-    print("Updated mkdocs.yml 'nav' section successfully.")
+    print("mkdocs.yml nav updated.")
 
 
 if __name__ == "__main__":
