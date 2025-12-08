@@ -313,17 +313,16 @@ def save_markdown(page, markdown_body: str) -> str:
 
 
 def cleanup_stale_files(valid_relative_paths: set[str]):
-    """
-    이번 sync에서 실제로 생성/갱신된 파일 목록(valid_relative_paths)에 없는
-    기존 notes/ 이하의 .md 파일들을 삭제한다.
-    """
-    # valid_relative_paths는 "foo/bar.md" 형태의 문자열 집합이라고 가정
     for path in OUTPUT_DIR.rglob("*.md"):
         rel = path.relative_to(OUTPUT_DIR).as_posix()
+
+        # 홈(index.md)은 항상 유지
+        if rel == "index.md":
+            continue
+
         if rel not in valid_relative_paths:
             path.unlink()
             print(f"Deleted stale file: {rel}")
-
 
 def main():
     ensure_env()
