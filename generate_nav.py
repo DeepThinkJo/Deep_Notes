@@ -1,7 +1,5 @@
-import re
-from pathlib import Path
-
 import yaml
+from pathlib import Path
 
 MKDOCS_PATH = Path("mkdocs.yml")
 NOTES_DIR = Path("notes")
@@ -27,7 +25,6 @@ def parse_front_matter(md_path: Path) -> dict:
     if not text.startswith("---"):
         return {}
 
-    # 처음 두 개의 '---' 사이를 front matter 로 간주
     parts = text.split("---", 2)
     if len(parts) < 3:
         return {}
@@ -45,10 +42,15 @@ def collect_pages():
     """
     notes/ 이하의 모든 .md 파일에 대해
     front matter 정보를 모아서 리스트로 반환.
+    nav 에서는 홈(index.md)은 제외한다.
     """
     pages = []
 
     for md_path in NOTES_DIR.rglob("*.md"):
+        # 홈 페이지(index.md)는 nav 에서 제외
+        if md_path.name == "index.md" and md_path.parent == NOTES_DIR:
+            continue
+
         meta = parse_front_matter(md_path)
 
         title = meta.get("title") or md_path.stem
@@ -57,7 +59,8 @@ def collect_pages():
         chapter = meta.get("chapter")
         section = meta.get("section")
 
-        rel_path = md_path.as_posix()  # mkdocs.yml 에서 쓸 경로
+        # docs_dir 가 notes 이므로, nav 경로는 notes/ 기준 상대 경로여야 한다.
+        rel_path = md_path.relative_to(NOTES_DIR).as_posix()
 
         pages.append(
             {
@@ -76,51 +79,103 @@ def collect_pages():
 def build_nav_structure(pages):
     """
     pages 리스트를 기반으로 mkdocs nav 구조(list of dicts)를 생성.
-    최종 구조:
-    nav:
+    구조:
       - Deep Notes:
           - Category:
               - Subcategory:
-                  - Title: path
+                  - Chapter X – Title:
+                      - Title: path          (챕터 메인)
+                      - X.Y Subtitle: path   (섹션들)
     """
-    # category / subcategory 기준으로 그룹화
+    # category / subcategory / chapter 기준으로 트리 구성
     tree = {}
 
     for p in pages:
         cat = p["category"]
         sub = p["subcategory"]
+        ch = p["chapter"]
 
-        tree.setdefault(cat, {}).setdefault(sub, []).append(p)
+        tree.setdefault(cat, {}).setdefault(sub, {}).setdefault(ch, []).append(p)
 
     deep_notes_children = []
 
-    # category 정렬 (알파벳)
+    # 카테고리 정렬
     for cat in sorted(tree.keys()):
         sub_dict = tree[cat]
         sub_entries = []
 
-        # subcategory 정렬 (알파벳)
+        # 서브카테고리 정렬
         for sub in sorted(sub_dict.keys()):
-            items = sub_dict[sub]
+            chapter_dict = sub_dict[sub]
+            chapter_entries = []
 
-            # chapter, section, title 기준으로 정렬
-            def sort_key(item):
-                ch = item["chapter"]
-                sec = item["section"]
+            # chapter 정렬 (None 은 맨 뒤로)
+            def chapter_sort_key(ch_key):
+                return (9999 if ch_key is None else ch_key)
 
-                # chapter / section 이 None 인 경우는 뒤쪽으로 보내기 위해 큰 값 사용
-                ch_key = ch if ch is not None else 9999
-                sec_key = sec if sec is not None else 9999
-                return (ch_key, sec_key, item["title"])
+            for ch in sorted(chapter_dict.keys(), key=chapter_sort_key):
+                items = chapter_dict[ch]
 
-            items.sort(key=sort_key)
+                # chapter 정보가 없는 페이지들은 서브카테고리 바로 아래에 나열
+                if ch is None:
+                    # section 기준 정렬
+                    items.sort(
+                        key=lambda item: (
+                            9999 if item["section"] is None else item["section"],
+                            item["title"],
+                        )
+                    )
+                    for item in items:
+                        chapter_entries.append({item["title"]: item["path"]})
+                    continue
 
-            pages_nav = [{item["title"]: item["path"]} for item in items]
-            sub_entries.append({sub: pages_nav})
+                # chapter 가 있는 경우: main 과 섹션 구분
+                main_page = None
+                sections = []
+
+                for item in items:
+                    if item["section"] is None and main_page is None:
+                        main_page = item
+                    else:
+                        sections.append(item)
+
+                # 섹션 정렬
+                sections.sort(
+                    key=lambda item: (
+                        9999 if item["section"] is None else item["section"],
+                        item["title"],
+                    )
+                )
+
+                # 챕터 제목 결정
+                if main_page:
+                    base_title = main_page["title"]
+                else:
+                    base_title = f"Chapter {ch}"
+
+                chapter_label = f"Chapter {ch} – {base_title}"
+
+                chapter_children = []
+
+                # 챕터 메인 페이지를 가장 위에 배치
+                if main_page:
+                    chapter_children.append({base_title: main_page["path"]})
+
+                # 각 섹션에 번호 붙여서 추가
+                for sec_item in sections:
+                    sec = sec_item["section"]
+                    if sec is not None:
+                        sec_label = f"{ch}.{sec} {sec_item['title']}"
+                    else:
+                        sec_label = sec_item["title"]
+                    chapter_children.append({sec_label: sec_item["path"]})
+
+                chapter_entries.append({chapter_label: chapter_children})
+
+            sub_entries.append({sub: chapter_entries})
 
         deep_notes_children.append({cat: sub_entries})
 
-    # 최종 nav 구조
     nav = [{"Deep Notes": deep_notes_children}]
     return nav
 
@@ -137,7 +192,6 @@ def update_mkdocs_nav():
         config["nav"] = nav
 
     with MKDOCS_PATH.open("w", encoding="utf-8") as f:
-        # sort_keys=False 로 해서 기존 key 순서를 최대한 유지
         yaml.safe_dump(
             config,
             f,
