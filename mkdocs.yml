@@ -21,9 +21,17 @@ extra_javascript:
 - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 nav:
 - Deep Notes:
-  - Mathematics:
-    - Linear_Algebra:
-      - Introduction to Linear Algebra: Mathematics/Linear_Algebra/introduction_to_linear_algebra.md
+  - Computer_Science:
+    - Python:
       - Chapter 1:
-        - 1 Vector Spaces: Mathematics/Linear_Algebra/chapter_1_vector_spaces.md
-        - 1.1 Vector Spaces and Subspaces: Mathematics/Linear_Algebra/chapter_1/sec_1_vector_spaces_and_subspaces.md
+        - 1 Introduction to Programming and Python: Computer_Science/Python/chapter_1_introduction_to_programming_and_python.md
+        - 1.1 Introduction to Computer Engineering: Computer_Science/Python/chapter_1/sec_1_introduction_to_computer_engineering.md
+        - 1.2 Introduction to Programming: Computer_Science/Python/chapter_1/sec_2_introduction_to_programming.md
+        - 1.3 Introduction to Python: Computer_Science/Python/chapter_1/sec_3_introduction_to_python.md
+      - Chapter 2:
+        - 2 Python Programming Basics: Computer_Science/Python/chapter_2_python_programming_basics.md
+        - 2.1 Data and Variables: Computer_Science/Python/chapter_2/sec_1_data_and_variables.md
+        - 2.2 Basic Data Types: Computer_Science/Python/chapter_2/sec_2_basic_data_types.md
+        - 2.3 Operators and Expressions: Computer_Science/Python/chapter_2/sec_3_operators_and_expressions.md
+  - Mathematics:
+    - Linear_Algebra: []
