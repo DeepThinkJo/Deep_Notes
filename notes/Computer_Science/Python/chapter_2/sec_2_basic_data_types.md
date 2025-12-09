@@ -3,7 +3,7 @@ title: "Basic Data Types"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-07T04:52:00.000Z"
-last_updated: "2025-12-09T14:08:00.000Z"
+last_updated: "2025-12-09T14:34:00.000Z"
 tags: []
 chapter: 2
 section: 2
@@ -37,7 +37,20 @@ Numbers with decimal points, such as `3.14` or `0.001`.
 
 They are approximations because they follow binary floating-point representation.
 
-> **Deep Thoughts of Jo — Why Floating-Point Numbers Are Approximations**
+
+!!! note "Deep Thoughts of Jo — Why Floating-Point Numbers Are Approximations"
+When Python stores a floating-point number, it does not store it exactly.
+
+Computers use finite binary memory to represent numbers, and many decimal values cannot be expressed exactly in binary.
+
+Values like 0.1 or 0.2 become infinite repeating fractions, so Python stores the closest possible approximation.
+
+This phenomenon is known as floating-point precision error — a fundamental limitation of digital computation.
+
+Later, you will learn how numerical errors arise and how engineers design stable algorithms despite these limitations.
+
+For now, remember: floating-point numbers are approximations, not exact values.
+
 ### **Strings (**`str`**)**
 
 A sequence of characters enclosed in quotes.
