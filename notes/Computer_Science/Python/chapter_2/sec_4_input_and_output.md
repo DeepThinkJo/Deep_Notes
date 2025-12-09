@@ -3,7 +3,7 @@ title: "Input and Output"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-08T14:53:00.000Z"
-last_updated: "2025-12-08T14:56:00.000Z"
+last_updated: "2025-12-09T14:21:00.000Z"
 tags: []
 chapter: 2
 section: 4
@@ -25,44 +25,7 @@ print("Hello, world!")
 
 By default, it ends output with a newline.
 
-## 🟦 **Deep Thoughts of Jo — How **`print()`** Really Behaves**
-
-### **Printing Multiple Values**
-
-When multiple values are passed separated by commas, Python inserts a **space** between them:
-
-```python
-print("Hello", "world", 123)
-# Output: Hello world 123
-
-
-```
-This default behavior is controlled by the internal argument `sep=" "`.
-
-### **The **`sep`** Parameter**
-
-```python
-print("A", "B", "C", sep="-")
-# Output: A-B-C
-
-
-```
-### **The **`end`** Parameter**
-
-```python
-print("Hello", end=" ")
-print("world!")
-# Output: Hello world!
-
-
-```
-### **Why These Details Matter**
-
-These small behaviors illustrate an important insight:
-
-> Python functions have default arguments, and understanding them helps you write more intentional code.
-This principle will reappear later when learning about function definitions, keyword arguments, and APIs.
-
+> **Deep Thoughts of Jo — Understanding the True Behavior of **`print()`
 ## **String Formatting in Python**
 
 When printing dynamic information, we often need to insert variables into strings.

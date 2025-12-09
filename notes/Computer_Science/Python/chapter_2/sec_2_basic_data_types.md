@@ -3,7 +3,7 @@ title: "Basic Data Types"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-07T04:52:00.000Z"
-last_updated: "2025-12-07T06:00:00.000Z"
+last_updated: "2025-12-09T14:08:00.000Z"
 tags: []
 chapter: 2
 section: 2
@@ -37,6 +37,7 @@ Numbers with decimal points, such as `3.14` or `0.001`.
 
 They are approximations because they follow binary floating-point representation.
 
+> **Deep Thoughts of Jo — Why Floating-Point Numbers Are Approximations**
 ### **Strings (**`str`**)**
 
 A sequence of characters enclosed in quotes.
