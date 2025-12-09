@@ -3,7 +3,7 @@ title: "Introduction to Computer Engineering"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-06T13:27:00.000Z"
-last_updated: "2025-12-07T03:41:00.000Z"
+last_updated: "2025-12-09T13:45:00.000Z"
 tags: []
 chapter: 1
 section: 1
@@ -36,4 +36,6 @@ Computer systems are organized into layers of abstraction:
 - **Hardware** — physical components such as CPU, memory, and I/O
 - **Operating System (OS)** — manages hardware and provides system services
 - **Software** — applications and programs written by developers
+
+
 **Programming occurs at the software layer**, expressing problem-solving procedures that the OS and hardware ultimately execute.
