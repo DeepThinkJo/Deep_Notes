@@ -11,7 +11,8 @@ It is built on a simple belief:
 > **Good engineering begins with deep thinking.  
 > Understanding the “why” makes the “how” meaningful.**
 
-Every page in this archive reflects a commitment to:
+Every page in this archive reflects a commitment to:  
+
 - **Deep exploration** rather than surface-level memorization  
 - **Structured reasoning** rather than trial-and-error  
 - **Purposeful engineering** grounded in fundamentals  
@@ -70,7 +71,8 @@ Every time I update a note in Notion:
 2. Markdown files are pushed to this GitHub repository  
 3. GitHub Pages regenerates this site automatically  
 
-This allows my learning process to stay:
+This allows my learning process to stay:  
+
 - **Consistent**
 - **Organized**
 - **Engineering-oriented**
