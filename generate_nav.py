@@ -177,7 +177,7 @@ def build_nav_structure(pages):
         deep_notes_children.append({cat: sub_entries})
 
     nav = [
-        {"← Back to DeepThinkJo": "https://deepthinkjo.github.io},
+        {"← Back to DeepThinkJo": "https://deepthinkjo.github.io"},
         {"Deep Notes": deep_notes_children}
     ]
     return nav
