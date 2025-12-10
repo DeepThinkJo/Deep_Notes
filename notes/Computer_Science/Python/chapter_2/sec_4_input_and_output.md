@@ -3,7 +3,7 @@ title: "Input and Output"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-08T14:53:00.000Z"
-last_updated: "2025-12-09T14:42:00.000Z"
+last_updated: "2025-12-10T13:47:00.000Z"
 tags: []
 chapter: 2
 section: 4
