@@ -3,7 +3,7 @@ title: "Basic Data Types"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-07T04:52:00.000Z"
-last_updated: "2025-12-09T14:43:00.000Z"
+last_updated: "2025-12-09T14:48:00.000Z"
 tags: []
 chapter: 2
 section: 2
