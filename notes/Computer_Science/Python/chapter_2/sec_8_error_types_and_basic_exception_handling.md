@@ -3,7 +3,7 @@ title: "Error Types and Basic "
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-10T14:24:00.000Z"
-last_updated: "2025-12-10T14:30:00.000Z"
+last_updated: "2025-12-10T14:48:00.000Z"
 tags: []
 chapter: 2
 section: 8
@@ -20,7 +20,7 @@ Python handles unexpected situations using a mechanism called **exceptions**,
 
 and programmers can use **exception handling** to control how a program responds when an error occurs.
 
-## **Common Error Types**
+## Common Error Types
 
 Here are some of the most frequent errors you will encounter:
 
@@ -30,7 +30,7 @@ Here are some of the most frequent errors you will encounter:
 - ValueError: Occurs when a variable has the right type but an inappropriate content
 - IndexError: Occurs when indexing outside valid bounds
 - ZeroDivisionError: Occurs when dividing by zero
-## **Why Exception Handling Matters**
+## Why Exception Handling Matters
 
 Without handling errors, a program simply stops when something unexpected happens.
 
@@ -45,7 +45,7 @@ This is dangerous when:
 
 To build robust programs, we must handle errors gracefully instead of crashing.
 
-# **Basic Exception Handling: **`try`** and **`except`
+# Basic Exception Handling: `try` and `except`
 
 The `try` block allows you to test code for errors.
 
@@ -64,7 +64,7 @@ Instead of the program crashing when the user enters something invalid,
 
 we can show a helpful message.
 
-## **Catching Multiple Exceptions**
+## Catching Multiple Exceptions
 
 ```python
 try:
@@ -77,7 +77,7 @@ except ZeroDivisionError:
 
 
 ```
-## **A General **`except`
+## A General `except`
 
 Sometimes you want to handle *any* error:
 
@@ -93,7 +93,7 @@ Use this with caution—it's helpful for debugging or protecting large systems,
 
 but should not replace specific exception handling.
 
-## `else`** and **`finally`** (Basic Overview)**
+## `else` and `finally` (Basic Overview)
 
 ```python
 try:
@@ -109,9 +109,11 @@ finally:
 ```
 - `else`: runs only if no exceptions occur
 - `finally`: always runs, used for cleanup (closing files, freeing resources, etc.)
+
+
 You will revisit `else` and `finally` in more depth later.
 
-## **Exception Handling and Problem Solving**
+## Exception Handling and Problem Solving
 
 Exception handling lets programmers build programs that:
 

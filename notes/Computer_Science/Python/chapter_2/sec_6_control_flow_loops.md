@@ -3,12 +3,12 @@ title: "Control Flow, Loops"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-10T14:09:00.000Z"
-last_updated: "2025-12-10T14:16:00.000Z"
+last_updated: "2025-12-10T14:47:00.000Z"
 tags: []
 chapter: 2
 section: 6
 ---
-# **2.6 Control Flow — Loops**
+# 2.6 Control Flow — Loops
 
 Loops allow a program to repeat actions efficiently.
 
@@ -16,7 +16,7 @@ They are essential in programming because many tasks require performing the same
 
 Python provides two main loop types—`while` and `for`—and several control statements (`break`, `continue`, `pass`) that determine how loops behave.
 
-## **The **`while`** Loop**
+## The `while` Loop
 
 A `while` loop repeats its body *as long as* a condition remains `True`.
 
@@ -43,7 +43,7 @@ Use it when:
 - the number of repetitions is unknown
 - repetition must continue until some condition changes
 - you are waiting for a specific event (user input, sensor data, etc.)
-## **The **`for`** Loop**
+## The `for` Loop
 
 A `for` loop iterates over a sequence:
 
@@ -65,7 +65,7 @@ for ch in "AI":
 
 Use `for` when you know *what* you are iterating over—lists, strings, ranges, and other iterable objects.
 
-## **The **`range()`** Function**
+## The `range()` Function
 
 `range()` generates integer sequences commonly used for iterative tasks.
 
@@ -84,7 +84,7 @@ for i in range(3):
 
 
 ```
-## **Loop Variables**
+## Loop Variables
 
 The loop variable takes on each value in the iteration sequence.
 
@@ -96,7 +96,7 @@ for x in [1, 2, 3]:
 
 
 ```
-## `break`** — exit the loop immediately**
+## `break` — exit the loop immediately
 
 `break` stops the loop entirely, regardless of the condition or remaining elements.
 
@@ -122,7 +122,7 @@ Useful when:
 - a desired value is found
 - further processing is unnecessary
 - the loop must terminate early
-## `continue`** — skip the current iteration**
+## `continue` — skip the current iteration
 
 `continue` jumps to the next iteration of the loop without executing the remaining code in the loop body.
 
@@ -146,7 +146,7 @@ Useful for:
 
 - skipping invalid or unneeded values
 - filtering data inside a loop
-## `pass`** — do nothing**
+## `pass` — do nothing
 
 `pass` is a no-operation placeholder.
 
@@ -163,7 +163,7 @@ Common uses:
 - when planning code structure
 - when stubbing out functions or classes
 - when a loop must exist syntactically but perform no actions
-## **Loops in Problem Solving**
+## Loops in Problem Solving
 
 Loops enable tasks such as:
 

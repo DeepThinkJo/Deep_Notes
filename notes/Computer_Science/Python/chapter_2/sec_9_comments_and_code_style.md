@@ -3,12 +3,12 @@ title: "Comments and Code Style"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-10T14:32:00.000Z"
-last_updated: "2025-12-10T14:34:00.000Z"
+last_updated: "2025-12-10T14:49:00.000Z"
 tags: []
 chapter: 2
 section: 9
 ---
-# **2.9 Comments and Code Style**
+# 2.9 Comments and Code Style
 
 Readable code is just as important as correct code.
 
@@ -20,9 +20,9 @@ Good code is not only about making the computer understand your instructions.
 
 It is about writing code that humans can understand.
 
-## **Comments**
+## Comments
 
-### **Single-line Comments**
+### Single-line Comments
 
 In Python, comments begin with `#`.
 
@@ -38,7 +38,7 @@ Use comments to explain **why** something is being done, not **what** is being d
 
 If your code is clear, the “what” should already be obvious.
 
-## **Docstrings**
+## Docstrings
 
 Functions, classes, and modules can include multi-line documentation strings.
 
@@ -51,7 +51,7 @@ def add(a, b):
 ```
 Docstrings are used by tools such as IDEs, documentation generators, and help systems.
 
-## **Indentation**
+## Indentation
 
 Python uses indentation to define code blocks, not braces `{}`.
 
@@ -67,7 +67,7 @@ if x > 0:
 ```
 Avoid mixing tabs and spaces.
 
-## **Line Length**
+## Line Length
 
 PEP 8 — Python’s official style guide — recommends:
 
@@ -75,7 +75,7 @@ PEP 8 — Python’s official style guide — recommends:
 - For docstrings and comments: **72 characters**
 This keeps code readable on various screens and tools.
 
-## **Naming Conventions**
+## Naming Conventions
 
 Python follows common naming styles:
 
@@ -95,7 +95,7 @@ class DataLoader:
 ```
 Good names make code self-explanatory.
 
-## **Blank Lines and Organization**
+## Blank Lines and Organization
 
 Use blank lines to separate logical sections of code.
 
@@ -113,7 +113,7 @@ save_results()
 
 
 ```
-## **Why Code Style Matters**
+## Why Code Style Matters
 
 Code is communication — between you and whoever reads your code.
 

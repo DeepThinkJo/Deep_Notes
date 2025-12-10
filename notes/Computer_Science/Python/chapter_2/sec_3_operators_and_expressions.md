@@ -3,14 +3,14 @@ title: "Operators and Expressions"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-07T05:28:00.000Z"
-last_updated: "2025-12-07T06:08:00.000Z"
+last_updated: "2025-12-10T14:43:00.000Z"
 tags: []
 chapter: 2
 section: 3
 ---
 # Operators and Expressions
 
-## **What Are Operators and Expressions?**
+## What Are Operators and Expressions?
 
 **Operators** are symbols that tell Python to perform specific actions on values or variables.
 
@@ -18,7 +18,7 @@ They allow us to combine values, compare them, and express logic within a progra
 
 An operator used together with values or variables forms an **expression**, which Python evaluates to produce a result.
 
-## **Assignment Operator (**`=`**)**
+## Assignment Operator (`=`)
 
 The assignment operator stores a value in a variable:
 
@@ -31,7 +31,7 @@ This means the value `10` is stored in memory, and the variable `x` refers to th
 
 Assignment is not a comparison—it is a binding of a name to a value.
 
-## **Arithmetic Operators**
+## Arithmetic Operators
 
 Arithmetic operators perform mathematical operations:
 
@@ -54,7 +54,7 @@ Python’s arithmetic operators also apply to certain non-numeric types:
 
 These behaviors highlight Python’s flexible and dynamic typing system.
 
-## **Comparison Operators**
+## Comparison Operators
 
 Comparison operators evaluate relationships between values and produce boolean results:
 
@@ -74,7 +74,7 @@ For example:
 ```
 Python compares strings lexicographically (alphabetical order based on Unicode).
 
-## **Logical Operators**
+## Logical Operators
 
 Logical operators combine boolean expressions:
 
@@ -87,7 +87,7 @@ Python also uses the concepts of **truthy** and **falsy** values:
 
 - Falsy examples: `0`, `""`, `None`, `False`, empty lists/sets/dicts
 - Everything else is truthy
-## **Compound Assignment Operators**
+## Compound Assignment Operators
 
 These update a variable by applying an operation and assignment in one step:
 
@@ -108,7 +108,7 @@ x += 3   # x becomes 8
 
 
 ```
-## **Operator Precedence**
+## Operator Precedence
 
 Python evaluates expressions according to precedence rules:
 
@@ -122,7 +122,7 @@ Python evaluates expressions according to precedence rules:
 
 Using parentheses makes expressions clearer and avoids ambiguity.
 
-## **Expression Evaluation**
+## Expression Evaluation
 
 An expression is any combination of values, variables, and operators that Python evaluates to produce a result.
 

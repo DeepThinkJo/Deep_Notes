@@ -3,7 +3,7 @@ title: "Data and Variables"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-07T04:33:00.000Z"
-last_updated: "2025-12-07T06:00:00.000Z"
+last_updated: "2025-12-10T14:42:00.000Z"
 tags: []
 chapter: 2
 section: 1
@@ -48,7 +48,7 @@ x = 10
 Python stores the value `10` in memory and binds the name `x` to that location.
 
 > Memory stores data, and variables give us names to access that data.
-## **Variable Naming Rules**
+## Variable Naming Rules
 
 Python variable names must follow certain rules:
 

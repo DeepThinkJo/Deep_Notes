@@ -3,7 +3,7 @@ title: "Control Flow, Conditional Statements"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-10T13:59:00.000Z"
-last_updated: "2025-12-10T14:21:00.000Z"
+last_updated: "2025-12-10T14:46:00.000Z"
 tags: []
 chapter: 2
 section: 5
@@ -14,7 +14,7 @@ Conditional statements allow a program to make decisions.
 
 They let Python choose whether to execute certain lines of code based on whether a condition is `True` or `False`.
 
-### **Why Conditions Matter**
+### Why Conditions Matter
 
 Real-world problems often require different actions depending on the situation:
 
@@ -25,7 +25,7 @@ Real-world problems often require different actions depending on the situation:
 
 In programming, these decisions are expressed using **conditional statements**.
 
-## **The **`if`** Statement**
+## The `if` Statement
 
 The simplest form of a conditional statement is:
 
@@ -44,7 +44,7 @@ if x > 0:
 
 
 ```
-## **The **`if-else`** Structure**
+## The `if-else` Structure
 
 Use `else` when you want one of two possible paths to run:
 
@@ -68,7 +68,7 @@ else:
 
 
 ```
-## **Multiple Conditions: **`elif`
+## Multiple Conditions: `elif`
 
 Sometimes there are more than two possibilities.
 
@@ -102,7 +102,7 @@ else:
 
 
 ```
-## **Nested Conditionals**
+## Nested Conditionals
 
 Conditional statements can be placed inside one another:
 
@@ -119,7 +119,7 @@ Nested conditionals work, but deep nesting can make code harder to read.
 
 In later chapters, you will learn cleaner techniques such as boolean expressions and guard clauses.
 
-## **Truthiness in Python**
+## Truthiness in Python
 
 In Python, conditions do not need to be actual `True` or `False` values.
 
@@ -159,7 +159,7 @@ No name entered
 ```
 because an empty string is considered **False**.
 
-## **Summary**
+## Summary
 
 Conditional statements allow programs to:
 

@@ -3,7 +3,7 @@ title: "Functions"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-10T14:20:00.000Z"
-last_updated: "2025-12-10T14:21:00.000Z"
+last_updated: "2025-12-10T14:48:00.000Z"
 tags: []
 chapter: 2
 section: 7
@@ -16,7 +16,7 @@ They allow programs to be organized into small, meaningful pieces and help avoid
 
 Learning to write good functions is essential for writing clear, modular, and maintainable programs.
 
-## **Why Functions Matter**
+## Why Functions Matter
 
 Functions are important because they:
 
@@ -29,7 +29,7 @@ Functions are important because they:
 
 In real engineering work, functions are the building blocks from which entire systems are constructed.
 
-## **Defining a Function**
+## Defining a Function
 
 You define a function using the `def` keyword:
 
@@ -55,7 +55,7 @@ result = square(3)
 
 
 ```
-## **Parameters and Arguments**
+## Parameters and Arguments
 
 - **parameters**: variables listed in the function definition
 - **arguments**: actual values passed when calling the function
@@ -71,7 +71,7 @@ greet("Jo")        # "Jo" is an argument
 
 
 ```
-## **Return Values**
+## Return Values
 
 `return` sends a value back to the caller.
 
@@ -85,7 +85,7 @@ x = add(2, 3)
 ```
 If a function does not have a `return` statement, it returns `None` by default.
 
-## **Default Parameters**
+## Default Parameters
 
 Functions can have default values for parameters:
 
@@ -105,7 +105,7 @@ power(3, 3)   # 27
 ```
 Default parameters are useful when a value is optional or a common default exists.
 
-## **Variable Scope (Basic)**
+## Variable Scope (Basic)
 
 Variables created inside a function are **local** to that function:
 
@@ -127,7 +127,7 @@ def show():
 ```
 A more detailed discussion of scope rules (LEGB rule) comes later in the advanced Functions chapter.
 
-## **Docstrings**
+## Docstrings
 
 Functions can include documentation:
 
@@ -140,7 +140,7 @@ def add(a, b):
 ```
 Docstrings help others understand your function’s purpose.
 
-## **Functions and Problem Solving**
+## Functions and Problem Solving
 
 Functions enable:
 

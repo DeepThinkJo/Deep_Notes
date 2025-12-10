@@ -3,14 +3,14 @@ title: "Input and Output"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-08T14:53:00.000Z"
-last_updated: "2025-12-10T14:38:00.000Z"
+last_updated: "2025-12-10T14:44:00.000Z"
 tags: []
 chapter: 2
 section: 4
 ---
 # 2.4 Input and Output
 
-## **Output with **`print()`
+## Output with `print()`
 
 Programs often need to display information to the user.
 
@@ -25,7 +25,7 @@ print("Hello, world!")
 
 By default, it ends output with a newline.
 
-## Deep Thoughts of Jo — Understanding the True Behavior of print()
+## **Deep Thoughts of Jo — Understanding the True Behavior of print()**
 
 The `print()` function may look simple, but its behavior reveals important ideas about how Python functions work.
 
@@ -39,13 +39,13 @@ When you learn about function definitions, keyword arguments, and API design, yo
 
 Developing the habit of asking *why* something behaves as it does is essential for a thoughtful engineer.
 
-## **String Formatting in Python**
+## String Formatting in Python
 
 When printing dynamic information, we often need to insert variables into strings.
 
 Python provides **three major formatting styles**, each created at a different time in Python’s evolution.
 
-### **1. f-strings (Recommended, Modern)**
+### 1. f-strings (Recommended, Modern)
 
 Introduced in Python 3.6, f-strings are the cleanest and most efficient way to format strings.
 
@@ -61,7 +61,7 @@ print(f"My name is {name} and I am {age} years old.")
 - Most readable
 - Fastest
 - Supports inline expressions
-### **2. **`str.format()`** (Older, Still Common)**
+### 2. `str.format()` (Older, Still Common)
 
 Before f-strings, the `.format()` method was the standard way to format strings.
 
@@ -78,7 +78,7 @@ print("{name} is {age}".format(name="Alice", age=20))
 
 
 ```
-### **3. **`%`** Formatting (Very Old, from C-style printf)**
+### 3. `%` Formatting (Very Old, from C-style printf)
 
 This method comes from C’s formatting style and is now mostly legacy:
 
@@ -89,20 +89,20 @@ print("My name is %s and I am %d years old." % (name, age))
 ```
 Still works, but offers fewer features and is considered outdated.
 
-### **Which One Should You Use?**
+### Which One Should You Use?
 
 Use **f-strings** unless you have a specific reason not to.
 
 They are clearer, safer, and designed for modern Python.
 
-## **Input with **`input()`
+## Input with `input()`
 
 ```python
 x = input("Enter something: ")
 
 
 ```
-## `input()`** Always Returns a String**
+## `input()` Always Returns a String
 
 ```python
 x = input("Enter a number: ")
@@ -118,7 +118,7 @@ y = float(input("Enter a floating-point number: "))
 
 
 ```
-## **Combining Input and Output**
+## Combining Input and Output
 
 ```python
 name = input("Name: ")

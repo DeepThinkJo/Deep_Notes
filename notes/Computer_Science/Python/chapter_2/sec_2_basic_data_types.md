@@ -3,14 +3,14 @@ title: "Basic Data Types"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-07T04:52:00.000Z"
-last_updated: "2025-12-10T14:37:00.000Z"
+last_updated: "2025-12-10T14:43:00.000Z"
 tags: []
 chapter: 2
 section: 2
 ---
 # 2.2 Basic Data Types
 
-## **Why Do We Need Data Types?**
+## Why Do We Need Data Types?
 
 A computer processes many different kinds of information—numbers, text, logical values, and more.
 
@@ -23,7 +23,7 @@ Python assigns a data type to every value, which determines:
 - how Python interprets the value during execution
 Understanding data types is essential for writing correct programs.
 
-## **Python’s Fundamental Data Types**
+## Python’s Fundamental Data Types
 
 ### **Integers (**`int`**)**
 
@@ -55,7 +55,7 @@ A special value that represents “no value” or “nothing.”
 
 Frequently used to indicate the absence of a result.
 
-## **Deep Thoughts of Jo — Why Floating-Point Numbers Are Approximations**
+## Deep Thoughts of Jo — Why Floating-Point Numbers Are Approximations
 
 When Python stores a floating-point number, it does not store it exactly.
 
@@ -69,7 +69,7 @@ Later, you will learn how numerical errors arise and how engineers design stable
 
 For now, remember: floating-point numbers are approximations, not exact values.
 
-## **Checking the Data Type: **`type()`
+## Checking the Data Type: `type()`
 
 The `type()` function reveals the type of any value or variable:
 
@@ -80,7 +80,7 @@ type(True)     # bool
 
 
 ```
-## **Casting (Type Conversion)**
+## Casting (Type Conversion)
 
 Sometimes we need to convert a value from one type to another.
 
