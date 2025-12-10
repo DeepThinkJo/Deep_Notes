@@ -3,7 +3,7 @@ title: "Input and Output"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-08T14:53:00.000Z"
-last_updated: "2025-12-10T13:47:00.000Z"
+last_updated: "2025-12-10T14:38:00.000Z"
 tags: []
 chapter: 2
 section: 4
@@ -25,7 +25,20 @@ print("Hello, world!")
 
 By default, it ends output with a newline.
 
-> Deep Thoughts of Jo — Understanding the True Behavior of print()
+## Deep Thoughts of Jo — Understanding the True Behavior of print()
+
+The `print()` function may look simple, but its behavior reveals important ideas about how Python functions work.
+
+Multiple arguments are separated by a space because of the default parameter `sep=" "`, and each call ends with a newline due to `end="\n"`.
+
+These defaults can be overridden, showing that Python functions combine predictability with flexibility.
+
+This leads to a key insight: Python functions have default arguments, and adjusting them allows customization without rewriting the function.
+
+When you learn about function definitions, keyword arguments, and API design, you will see this principle repeatedly.
+
+Developing the habit of asking *why* something behaves as it does is essential for a thoughtful engineer.
+
 ## **String Formatting in Python**
 
 When printing dynamic information, we often need to insert variables into strings.

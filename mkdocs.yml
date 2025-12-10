@@ -35,3 +35,8 @@ nav:
         - 2.2 Basic Data Types: Computer_Science/Python/chapter_2/sec_2_basic_data_types.md
         - 2.3 Operators and Expressions: Computer_Science/Python/chapter_2/sec_3_operators_and_expressions.md
         - 2.4 Input and Output: Computer_Science/Python/chapter_2/sec_4_input_and_output.md
+        - 2.5 Control Flow, Conditional Statements: Computer_Science/Python/chapter_2/sec_5_control_flow_conditional_statements.md
+        - 2.6 Control Flow, Loops: Computer_Science/Python/chapter_2/sec_6_control_flow_loops.md
+        - 2.7 Functions: Computer_Science/Python/chapter_2/sec_7_functions.md
+        - '2.8 Error Types and Basic ': Computer_Science/Python/chapter_2/sec_8_error_types_and_basic_exception_handling.md
+        - 2.9 Comments and Code Style: Computer_Science/Python/chapter_2/sec_9_comments_and_code_style.md
