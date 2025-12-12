@@ -40,3 +40,6 @@ nav:
         - 2.7 Functions: Computer_Science/Python/chapter_2/sec_7_functions.md
         - '2.8 Error Types and Basic ': Computer_Science/Python/chapter_2/sec_8_error_types_and_basic_exception_handling.md
         - 2.9 Comments and Code Style: Computer_Science/Python/chapter_2/sec_9_comments_and_code_style.md
+      - Chapter 3 – Python Data Structures:
+        - Python Data Structures: Computer_Science/Python/chapter_3_python_data_structures.md
+        - 3.1 Strings: Computer_Science/Python/chapter_3/sec_1_strings.md
