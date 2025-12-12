@@ -43,3 +43,4 @@ nav:
       - Chapter 3 – Python Data Structures:
         - Python Data Structures: Computer_Science/Python/chapter_3_python_data_structures.md
         - 3.1 Strings: Computer_Science/Python/chapter_3/sec_1_strings.md
+        - 3.2 Lists: Computer_Science/Python/chapter_3/sec_2_lists.md

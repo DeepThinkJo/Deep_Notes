@@ -3,7 +3,7 @@ title: "Strings"
 category: "Computer_Science"
 subcategory: "Python"
 created: "2025-12-12T13:43:00.000Z"
-last_updated: "2025-12-12T13:47:00.000Z"
+last_updated: "2025-12-12T13:52:00.000Z"
 tags: []
 chapter: 3
 section: 1
@@ -97,34 +97,32 @@ s.count("a") # returns how many times "a" appears in the string
 ```python
 s.strip()  # removes left and right whitespace
 s.lstrip() # removes left whitespace only
-s.rstrip() # removes right whitespace
+s.rstrip() # removes right whitespace only
 
 
 ```
 ### **Splitting and Joining**
 
 ```python
-s.split(",")
-",".join(["a", "b", "c"])
+s.split(",")              # (str->list) splits a string into a list using "," as delimeter
+" ".join(["a", "b", "c"]) # (list->str) joins a list of strings into one string with spaces
 
 
 ```
 ### **Replacing and Searching**
 
 ```python
-s.replace("old", "new")
-s.find("sub")
+s.replace("old", "new") # returns a new string with substrings replaced
+s.find("sub")           # returns the index of first occurence, or -1 if not found
 
 
 ```
 ### **Case Conversion**
 
 ```python
-s.upper()
-s.lower()
-s.capitalize()
-
-
+s.upper()      # returns a copy with all characters in uppercase
+s.lower()      # returns a copy with all characters in lowercase
+s.capitalize() # returns a copy with the first character caplitalized
 ```
 These methods allow strings to be transformed, analyzed, and prepared for further processing.
 
@@ -135,6 +133,8 @@ Although Python hides low-level memory management, conceptually:
 - a string is stored as a **contiguous sequence of characters in memory**
 - indexing accesses characters by offset
 - immutability ensures that shared string data remains safe
+
+
 When a string is modified, Python allocates new memory and copies the data.
 
 This makes string operations safe but can be expensive if done repeatedly in loops.
@@ -148,6 +148,8 @@ Strings are central to real-world programming:
 - processing text data
 - building datasets
 - interacting with external systems
+
+
 In AI and data science, text data is often the **raw input** that must be cleaned, tokenized, and transformed before any model can be applied.
 
 Understanding strings as **immutable sequence data structures** prepares you for more advanced text processing and data manipulation techniques.
